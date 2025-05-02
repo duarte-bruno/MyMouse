@@ -4,14 +4,18 @@ import Foundation
 class MyMouse {
     // Move around and click automatically at random places in macos, kinda human like in a cheap way.
 
+    private var shouldStop = false
+
     // Moves the mouse pointer to `moves` random locations on the screen and runs the `action` function at
     // each point with the point as argument.
     func mouseMoveWithAction(moves: Int, action: (CGPoint) -> Void = defaultAction) {
+        shouldStop = false
         let screenSize = NSScreen.main?.visibleFrame.size
         let currentLocation = NSEvent.mouseLocation
         var currentPoint = CGPoint(x: currentLocation.x, y: currentLocation.y)
         
-        for _ in 0 ... (moves - 1) {
+        for _ in 0 ..< moves {
+            if shouldStop { break }
             let randomXPos = CGFloat.random(in: 0..<screenSize!.width)
             let randomYPos = CGFloat.random(in: 0..<screenSize!.height)
             let destination = CGPoint(x: randomXPos, y: randomYPos)
@@ -33,16 +37,12 @@ class MyMouse {
         print("<no action at \(point)>")
     }
 
-    // Pause for slightly longer 20% of the time
     func pauseTime() -> Int {
-        let pauseType = Int.random(in: 0..<100)
-        if(pauseType >= 80) {
-            let longPause = Int.random(in: 100_000..<2_000_000)
-            return longPause
-        } else {
-            let shortPause = Int.random(in: 10_000..<500_000)
-            return shortPause
-        }
+        return Int.random(in: 30_000_000..<50_000_000)
+    }
+
+    func stop() {
+        shouldStop = true
     }
 
     func moveMouseTo(point: CGPoint) {
