@@ -5,10 +5,16 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: "magicmouse")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            
+            Text("My mouse")
+            
+            Button("Start") {
+                let mouse = MyMouse()
+                mouse.mouseMoveWithAction(moves: 1000000)
+            }
         }
         .padding()
     }
