@@ -1,10 +1,8 @@
-//
-
 import SwiftUI
 
 struct ContentView: View {
     @State private var isMoving = false
-    @State private var mouse = MyMouse()
+    @State private var movement = Movement()
     
     var body: some View {
         VStack {
@@ -16,14 +14,11 @@ struct ContentView: View {
             
             Button(isMoving ? "Stop" : "Start") {
                 if isMoving {
-                    mouse.stop()
+                    movement.stopMoving()
                     isMoving = false
                 } else {
+                    movement.startMoving()
                     isMoving = true
-                    DispatchQueue.global(qos: .userInitiated).async {
-                        mouse.mouseMoveWithAction(moves: 1000000)
-                        DispatchQueue.main.async { isMoving = false }
-                    }
                 }
             }
         }
